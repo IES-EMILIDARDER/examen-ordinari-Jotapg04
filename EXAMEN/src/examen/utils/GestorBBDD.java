@@ -45,6 +45,7 @@ public class GestorBBDD {
         }
 
         // Estableix la connexi� a la BD Mysql
+       
         return DriverManager.getConnection( valorsConnexio.get("SERVER") + valorsConnexio.get("DBASE"), 
                                             valorsConnexio.get("USER"), 
                                             valorsConnexio.get("PASSWD"));
