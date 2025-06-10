@@ -9,6 +9,7 @@ public class Main {
         try {
             gestor.carregaDades();
 
+            // CORRECCIO: a?adido para ver el efecto de modificar los departamentos
             gestor.getDepartments().forEach(d->  d.setName(d.getName().toUpperCase() )  );
             
             gestor.mostraDepartments();

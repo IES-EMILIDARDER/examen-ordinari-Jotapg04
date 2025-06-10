@@ -22,6 +22,7 @@ public class GestorExamen {
     private Map<String, Employee> employees = new HashMap<>();
     private Map<Department, List<Employee>> departmentsXemployees = new HashMap<>();
 
+    // CORRECCIO: a?adido para ver el efecto de modificar los departamentos
     public void setDepartments(Set<Department> departments) {
         this.departments = departments;
     }
@@ -29,18 +30,7 @@ public class GestorExamen {
     public Set<Department> getDepartments() {
         return departments;
     }
-
-    public Map<String, Employee> getEmployees() {
-        return employees;
-    }
-
-    public void setEmployees(Map<String, Employee> employees) {
-        this.employees = employees;
-    }
-
-
-    
-    
+ 
     
     final String MYSQL_CON = "c:\\temp\\mysql.con";
     GestorBBDD gestorBBDD = new GestorBBDD(MYSQL_CON);
