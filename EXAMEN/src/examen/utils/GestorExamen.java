@@ -21,6 +21,26 @@ public class GestorExamen {
     private Set<Department> departments = new HashSet<>();
     private Map<String, Employee> employees = new HashMap<>();
     private Map<Department, List<Employee>> departmentsXemployees = new HashMap<>();
+
+    public void setDepartments(Set<Department> departments) {
+        this.departments = departments;
+    }
+
+    public Set<Department> getDepartments() {
+        return departments;
+    }
+
+    public Map<String, Employee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(Map<String, Employee> employees) {
+        this.employees = employees;
+    }
+
+
+    
+    
     
     final String MYSQL_CON = "c:\\temp\\mysql.con";
     GestorBBDD gestorBBDD = new GestorBBDD(MYSQL_CON);
@@ -44,9 +64,9 @@ public class GestorExamen {
             while (res.next()) {
                 int depId = res.getInt("department_id");
                 String depName = res.getString("department_name");
-                Department dep = new Department(depId, depName);
-                departments.add(dep);
-
+                Department dep = new Department(depId, depName);  // CORRECCIÓ: siempre creas el departamento
+                departments.add(dep);                             // he modificado el 'main' para que veas el efecto de referenciar o no los objectos
+                                                                  // si te fijas, el departamento en mayusculas no esta presente en muchos empleados
                 String email = res.getString("email");
                 String first = res.getString("first_name");
                 String last = res.getString("last_name");
@@ -68,6 +88,8 @@ public class GestorExamen {
         */
         System.out.println("DEPARTMENTS");
         departments.stream()
+                     // CORRECCIÓ: 'sorted(Comparator)' es demasiado complejo
+                     // esperaba un 'sorted()' implementadando 'Comparator' en la clase ...
                     .sorted(Comparator.comparingInt(Department::getDepartmentId))
                     .forEach(System.out::println);
         System.out.println("////////////////////////////////////////");
@@ -80,6 +102,8 @@ public class GestorExamen {
         System.out.println("EMPLOYEES");
         employees.values()
                  .stream()
+                 // CORRECCIÓ: 'sorted(Comparator)' es demasiado complejo
+                 // esperaba un 'sorted()' implementadando 'Comparator' en la clase ...
                  .sorted(Comparator.comparing(e -> e.getFirstName() + e.getLastName())) //tanto el nombre como el apellido
                  .forEach(System.out::println); //imprimimos
          System.out.println("////////////////////////////////////////"); //para que al separar sea más visual
@@ -97,6 +121,8 @@ public class GestorExamen {
                                 Department d = entry.getKey();
                                 List<Employee> empList = entry.getValue()
                                                               .stream()
+                                                              // CORRECCIÓ: 'sorted(Comparator)' es demasiado complejo
+                                                              // esperaba un 'sorted()' implementadando 'Comparator' en la clase ...
                                                               .sorted(Comparator.comparing(e -> e.getFirstName() + e.getLastName())) //tanto el nombre como el apellido
                                                               .toList(); //lo pasamos a lista
                                 
@@ -123,8 +149,9 @@ public class GestorExamen {
                                                      .stream()
                                                      .sorted(Comparator.comparing(e -> e.getFirstName() + e.getLastName())) // y después tanto el nombre como el apellido
                                                      .map(Employee::getEmail)
-                                                     .toList();
+                                                     .toList();  
                     
+                    // CORRECCIÓ: esta construcción está exageradamente bien construida ...
                     bw.write(d.getDepartmentId() + "," + d.getName() + "," + String.join(";",emailsSorted)); //con el string join separará por ;
                     bw.newLine();
                 } catch (IOException e) {

@@ -9,6 +9,8 @@ public class Main {
         try {
             gestor.carregaDades();
 
+            gestor.getDepartments().forEach(d->  d.setName(d.getName().toUpperCase() )  );
+            
             gestor.mostraDepartments();
             gestor.mostraEmployees();
             gestor.mostraDepartmentsXEmployees();
